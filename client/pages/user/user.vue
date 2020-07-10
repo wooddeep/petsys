@@ -87,14 +87,14 @@ export default {
 				header: {
 					Authorization: uni.getStorageSync('token')
 				},
-				url: 'http://192.168.147.112:8080/petsys/upload?openid=' + that.openId, //需传后台图片上传接口
+				url: that.websiteUrl + '/petsys/upload?openid=' + that.openId, //需传后台图片上传接口
 				filePath: file[0],
 				name: 'file',
 				success: function(res) {
 					var data = JSON.parse(res.data);
 					//data = data.data;
 					console.log(data);
-					that.setAvatarUrl('http://192.168.147.112:8080' + data.data.filename);
+					that.setAvatarUrl(that.websiteUrl + data.data.filename);
 					console.log(that.avatarUrl);
 				},
 				fail: function(error) {
@@ -116,7 +116,7 @@ export default {
 		savaInfo(e) {
 			console.log(e.detail.value);
 			uni.request({
-				url: 'http://192.168.147.112:8080/petsys/user/modify',
+				url: that.websiteUrl + '/petsys/user/modify',
 				method: 'POST',
 				data: {},
 				success: (res) => {

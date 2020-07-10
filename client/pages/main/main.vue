@@ -54,7 +54,7 @@ export default {
 				icon: 'none'
 			});
 			uni.navigateTo({
-				url: '../user/line'
+				url: '../user/petInfo'
 			});
 		}
 	},
@@ -68,7 +68,7 @@ export default {
 				success: res => {
 					console.log(res); //包含code
 					uni.request({
-						url: 'http://192.168.147.112:8080/petsys/openid/get',
+						url: that.websiteUrl + '/petsys/openid/get',
 						data: { jscode: res.code },
 						method: 'POST',
 						success: openId_res => {
@@ -78,7 +78,7 @@ export default {
 								this.setOpenId(openId_res.data.data.openid);
 								console.log(openId_res.data.data.openid);
 								uni.request({
-									url: 'http://192.168.147.112:8080/petsys/user/check',
+									url: that.websiteUrl + '/petsys/user/check',
 									data: { openid: openId_res.data.data.openid },
 									method: 'POST',
 									success: res => {

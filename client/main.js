@@ -7,6 +7,8 @@ Vue.config.productionTip = false
 
 Vue.prototype.$store = store
 
+Vue.prototype.websiteUrl = 'http://192.168.141.171:8080';
+
 App.mpType = 'app'
 
 const app = new Vue({

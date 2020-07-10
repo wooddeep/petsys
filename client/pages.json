@@ -32,6 +32,12 @@
 				"navigationBarTitleText": "设置"
 			}
         }
+        ,{
+            "path" : "pages/user/petInfo",
+            "style" : {
+				"navigationBarTitleText": "宠物信息"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#7a7e83",
