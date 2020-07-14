@@ -86,7 +86,15 @@ def insert_device_data(lsb, msb, date, code):
     sql = 'select lsb from device_data where `device_id`=(select `id` from `device` where `code`="%s") order by date desc limit 0, 1;' % code
 
     result = mp.fetch_one(sql, {})
-    prev_weight = result['lsb']
+    if result == None:
+        lsb = 0
+        prev_weight = None
+    else:
+        if 'lsb' in result:
+            prev_weight = result['lsb']
+        else:
+            prev_weight = 0
+
     if prev_weight == None:
         prev_weight = 0
 
@@ -210,7 +218,7 @@ def handle_mqtt_message(client, userdata, message):
     if package[0] == 0xAA:
         lsb = proto.get_lsb(package)
         msb = proto.get_msb(package)
-        dev_code = proto.get_dev_code(package)
+        dev_code = proto.get_dev_code(package) # 通过报文获取 设备编码
 
         dt = datetime.now()
         date = dt.strftime('%Y-%m-%d %H:%M:%S')
