@@ -123,3 +123,42 @@ CREATE TABLE `user` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2020-07-10 14:34:16
+
+-- 获取中值
+drop function if exists GET_MIDDLE_DATA; 
+delimiter $$ 
+create function GET_MIDDLE_DATA(value_set text) returns int
+begin 
+declare temp char(10); 
+declare row_count int;
+declare mid_index int;
+declare out_value int;
+SELECT LENGTH(value_set) - LENGTH(REPLACE(value_set,',','')) + 1 as `rows` into row_count;
+
+SELECT floor(IF(row_count < 10, row_count, 10) / 2) into mid_index;
+
+select num from ( 
+    select * from (
+        SELECT 
+            SUBSTRING_INDEX(SUBSTRING_INDEX(value_set,',',help_topic_id+1),',',-1) AS num 
+        FROM  
+            mysql.help_topic 
+        WHERE 
+            help_topic_id < LENGTH(value_set)-LENGTH(REPLACE(value_set,',',''))+1 
+    ) all_data 
+    limit 10
+) filter_data
+order by cast(num as int)
+limit mid_index, 1
+into temp;
+
+select cast(temp as int) into out_value;
+
+return out_value; 
+end 
+$$ 
+delimiter ;
+
+-- 测试
+select GET_MIDDLE_DATA('11,2,3,4,5,6,7,8,9,10');
+select GET_MIDDLE_DATA('0,423786,1389258,3508746,4400178,100');
