@@ -1,9 +1,9 @@
 <template>
 	<view class="qiun-columns">
-		<view class="qiun-bg-white qiun-title-bar qiun-common-mt"><view class="qiun-title-dot-light">基本柱状图</view></view>
+		<view class="qiun-bg-white qiun-title-bar qiun-common-mt"><view class="qiun-title-dot-light">喂食信息表</view></view>
 		<view class="qiun-charts"><canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas></view>
 
-		<view class="qiun-bg-white qiun-title-bar qiun-common-mt"><view class="qiun-title-dot-light">基本折线图</view></view>
+		<view class="qiun-bg-white qiun-title-bar qiun-common-mt"><view class="qiun-title-dot-light">饮食情况</view></view>
 		<view class="qiun-charts">
 			<canvas canvas-id="canvasLine" id="canvasLine" class="charts" @touchstart="touchLine" @touchmove="moveLine" @touchend="touchEndLine"></canvas>
 		</view>
@@ -13,7 +13,6 @@
 <script>
 import uCharts from '@/components/u-charts/u-charts.js';
 import { isJSON } from '@/common/checker.js';
-import { chartsTemplate } from '@/common/charDataTemplate.js';
 
 var _self;
 var canvaColumn = null;
@@ -50,12 +49,13 @@ export default {
 						if (d.getMinutes() < 10) array[index] = d.getHours().toString() + ':0' + d.getMinutes().toString();
 						else array[index] = d.getHours().toString() + ':' + d.getMinutes().toString();
 					});
-					let chartsData = chartsTemplate;
+					let cData = {categories:[],series:[{name: '', data: []}]};
 					//这里我后台返回的是数组，所以用等于，如果您后台返回的是单条数据，需要push进去
-					chartsData.categories = foodData.feed.categories.slice(0, 7);
-					chartsData.series[0].data = foodData.feed.data.slice(0, 7);
-					chartsData.series[0].name = 'day';
-					_self.showColumn('canvasColumn', chartsData);
+					cData.categories = foodData.feed.categories.slice(0, 7);
+					cData.series[0].data = foodData.feed.data.slice(0, 7);
+					cData.series[0].name = 'day';
+					console.log(cData);
+					_self.showColumn('canvasColumn', cData);
 					
 					//折线图
 					foodData.eat.categories.forEach((item, index, array) => {
@@ -63,12 +63,13 @@ export default {
 						if (d.getMinutes() < 10) array[index] = d.getHours().toString() + ':0' + d.getMinutes().toString();
 						else array[index] = d.getHours().toString() + ':' + d.getMinutes().toString();
 					});
-					chartsData = chartsTemplate;
+					let lData={categories:[],series:[{name: '', data: []}]};
 					//这里我后台返回的是数组，所以用等于，如果您后台返回的是单条数据，需要push进去
-					chartsData.categories = foodData.eat.categories.slice(0, 7);
-					chartsData.series[0].data = foodData.eat.data.slice(0, 7);
-					chartsData.series[0].name = 'day';
-					_self.showLine('canvasLine', chartsData);
+					lData.categories = foodData.eat.categories.slice(0, 7);
+					lData.series[0].data = foodData.eat.data.slice(0, 7);
+					lData.series[0].name = 'day11';
+					console.log(lData);
+					_self.showLine('canvasLine', lData);
 				},
 				fail: () => {
 					_self.tips = '网络错误，小程序端请检查合法域名';

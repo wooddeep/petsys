@@ -1,6 +1,10 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+		    "path" : "pages/main/loading",
+		    "style" : {}
+		},
+		{
 			"path": "pages/main/main",
 			"style": {
 				"navigationBarTitleText": "宠物云"
@@ -14,11 +18,6 @@
 			"path": "pages/reg/reg",
 			"style": {
 				"navigationBarTitleText": "注册信息"
-			}
-		}, {
-			"path": "pages/user/line",
-			"style": {
-				"navigationBarTitleText": "统计图"
 			}
 		}, {
 			"path": "pages/user/user",
@@ -37,6 +36,10 @@
             "style" : {
 				"navigationBarTitleText": "宠物信息"
 			}
+        }
+        ,{
+            "path" : "pages/rank/rank",
+            "style" : {}
         }
     ],
 	"tabBar": {
