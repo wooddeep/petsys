@@ -93,7 +93,7 @@ def add_rank_routes(app):
     # 食欲低于 50% 的 排行
     query_low_desire_rank_by_mid = \
     '''
-    select page_date.device_id, page_date.rate, user.name from 
+    select page_date.device_id, page_date.rate, user.name, user.icon_path from 
     (
         select device_id, rate from (
             select mid_data.device_id, sum_group, GET_MIDDLE_DATA(sum_group) `mid`, today_data.sum today, 
@@ -126,7 +126,7 @@ def add_rank_routes(app):
     # 食欲低于 50% 的 排行
     query_com_desire_rank_by_mid = \
     '''
-    select page_date.device_id, page_date.rate, user.name from 
+    select page_date.device_id, page_date.rate, user.name, user.icon_path from 
     (
         select device_id, rate from (
             select mid_data.device_id, sum_group, GET_MIDDLE_DATA(sum_group) `mid`, today_data.sum today, 
@@ -290,16 +290,19 @@ def add_rank_routes(app):
             if result['code'] == 0:
                 low = {}
                 device_id = []
+                icon_path = []
                 rate = []
                 name = []
                 for onedata in low_data:
                     device_id.append(int(onedata['device_id']))
+                    icon_path.append(onedata['icon_path'])
                     rate.append(float(onedata['rate']))
                     name.append(onedata['name'])
                 low["device_id"] = device_id
                 low["rate"] = rate
                 low["name"] = name
                 low['total'] = total
+                low['icon_path'] = icon_path
                 return {"code": 0, "msg": "success!", "data": low}
             else:
                 return '{"code": 2, "msg": "%s"}' % result['msg']
@@ -331,16 +334,19 @@ def add_rank_routes(app):
             if result['code'] == 0:
                 com = {}
                 device_id = []
+                icon_path = []
                 rate = []
                 name = []
                 for onedata in com_data:
                     device_id.append(int(onedata['device_id']))
+                    icon_path.append(onedata['icon_path'])
                     rate.append(float(onedata['rate']))
                     name.append(onedata['name'])
                 com["device_id"] = device_id
                 com["rate"] = rate
                 com["name"] = name
                 com['total'] = total
+                com['icon_path'] = icon_path
                 return {"code": 0, "msg": "success!", "data": com}
             else:
                 return '{"code": 2, "msg": "%s"}' % result['msg']
