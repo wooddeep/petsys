@@ -1,5 +1,15 @@
 <template>
 	<view class="container" :style="'background: url(' + bg + ') no-repeat center/cover #eeeeee;'">
+		<!-- logo图标 -->
+		<view class="loading_logo">
+			<image src="../../static/pet/logo.png"></image>
+		</view>
+		<!-- 小圆点 -->
+		<view class="dian">
+			<text class="dian_first"></text>
+			<text></text>
+			<text></text>
+		</view>
 		<view class="button-area">
 			<button  @tap="goIndex">开启精彩之旅</button>
 		</view>
@@ -18,7 +28,7 @@
 			goIndex() {
 				console.log('go to main!');
 				uni.reLaunch({
-					url: '../rank/rank'
+					url: '../main/main'
 				})
 			}
 		}
@@ -35,13 +45,50 @@
 	margin:0 auto;
 }
 .button-area button {
-	background-color: #00c691; /* Green */
+	background-color: #4fcbbe; /* Green */
+	width: 234rpx;
+	height: 77rpx;
+	line-height: 77rpx;
 	border-radius: 8px;
 	color: white;
 	text-align: center;
-	font-size: 10px;
+	font-size: 14px;
 	position: absolute;
 	bottom: calc(100%/5);
 	/* left: calc(100%/3); */
+}
+/* 图标 */
+.loading_logo{
+	margin: 230rpx auto;
+	text-align: center;
+	width: 100%;
+	height: 400rpx;
+	/* border: 1px solid red; */
+}
+.loading_logo image{
+	width: 391rpx;
+	height: 407rpx;
+}
+/* 小圆点 */
+.dian{
+	width: 100%;
+	height: 80rpx;
+	/* border: 1px solid red; */
+	margin: -80rpx auto;
+	text-align: center;
+}
+.dian text{
+	display: inline-block;
+	width: 14rpx;
+	height: 14rpx;
+	background-color: white;
+	border-radius: 50%;
+    margin: 0 4rpx;
+}
+.dian_first{
+	width: 40rpx !important;
+	height: 16rpx !important;
+	background-color:#4fcbbe !important;
+	border-radius: 9rpx 9rpx !important;
 }
 </style>

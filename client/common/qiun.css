@@ -22,10 +22,12 @@ page {
 .qiun-columns {
 	display: flex;
 	flex-direction: column !important;
+	width: 100%;
+	height: 100%;
 }
 
 .qiun-common-mt {
-	margin-top: 10upx;
+	margin-top: 2%;
 }
 
 .qiun-common-border-bottom {
@@ -37,6 +39,7 @@ page {
 }
 
 .qiun-title-bar {
+	height: 6%;
 	width: 96%;
 	padding: 10upx 2%;
 	flex-wrap: nowrap;
