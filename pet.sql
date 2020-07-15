@@ -147,11 +147,11 @@ select num from (
     ) all_data 
     limit 10
 ) filter_data
-order by cast(num as int)
+order by cast(num as UNSIGNED)
 limit mid_index, 1
 into temp;
 
-select cast(temp as int) into out_value;
+select cast(temp as UNSIGNED) into out_value;
 
 return out_value; 
 end ;;
