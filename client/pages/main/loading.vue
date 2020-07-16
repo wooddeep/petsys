@@ -17,19 +17,42 @@
 </template>
 
 <script>
+	import { weixinLogin } from '@/api/login.js'
+	import { mapState, mapMutations } from 'vuex';
+	
+	var _self;
+	
 	export default {
+		computed: {
+			...mapState(['openId'])
+		},
 		data() {
 			return {
 				bg: '/../../static/pet/bg_loading.jpg',
 				button_loading: '../../static/pet/button_loading.png'
 			}
 		},
+		onLoad() {
+			_self = this;
+			weixinLogin(_self).then( err => {
+				console.log("登录失败！");
+			});
+		},
 		methods: {
+			...mapMutations(['login', 'setUserInfo', 'setOpenId']),
 			goIndex() {
-				console.log('go to main!');
-				uni.reLaunch({
-					url: '../main/main'
-				})
+				if (!_self.openId) {
+					uni.showToast({
+						icon: 'none',
+						title: '正在登录'
+					});
+				} else {
+					console.log('go to main!');
+					console.log(_self.openId);
+					uni.reLaunch({
+						url: '../main/main'
+					})
+				}
 			}
 		}
 	}

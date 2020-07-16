@@ -14,7 +14,6 @@
 
 <script>
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
-	import {apiWeiboList} from "@/api/mock.js"
 	import {getCommonRankData, getLowRankData} from "@/api/rank.js"
 	
 	export default {

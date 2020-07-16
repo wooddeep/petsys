@@ -24,6 +24,7 @@
 import { mapState, mapMutations } from 'vuex';
 import uniCard from '@/components/uni-card/uni-card.vue';
 import { isJSON } from '@/common/checker.js';
+import { weixinLogin } from '@/api/login.js'
 
 export default {
 	components: {
@@ -49,10 +50,13 @@ export default {
 	methods: {
 		...mapMutations(['login', 'setOpenId', 'setUserInfo']),
 		clickCard() {
-			uni.showToast({
-				title: '点击卡片',
-				icon: 'none'
-			});
+			if (!this.hasLogin){
+				uni.showToast({
+					title: '未登录',
+					icon: 'none'
+				});
+				weixinLogin(this);
+			}
 			uni.navigateTo({
 				url: '../user/petInfo'
 			});
@@ -62,76 +66,7 @@ export default {
 		if (!this.hasLogin) {
 			// 未登录
 			console.log('not login!');
-			let that = this;
-			uni.login({
-				provider: 'weixin',
-				success: res => {
-					console.log(res); //包含code
-					uni.request({
-						url: that.websiteUrl + '/petsys/openid/get',
-						data: { jscode: res.code },
-						method: 'POST',
-						success: openId_res => {
-							console.log('get openid!');
-							console.log(openId_res.data.data);
-							if (isJSON(openId_res.data.data)) {
-								this.setOpenId(openId_res.data.data.openid);
-								console.log(openId_res.data.data.openid);
-								uni.request({
-									url: that.websiteUrl + '/petsys/user/check',
-									data: { openid: openId_res.data.data.openid },
-									method: 'POST',
-									success: res => {
-										console.log(res);
-										if (res.data.code == 1) {
-											uni.navigateTo({
-												url: '../reg/reg'
-											});
-										} else { //已经注册，返回首页 接口返回用户信息
-											console.log(res.data.data[0]);
-											that.setUserInfo(res.data[0]);
-										}
-									},
-									fail: (err) => {
-										uni.showToast({
-											icon: 'none',
-											title: '网络连接失败'
-										});
-										console.error('网络连接失败：' + JSON.stringify(err));
-									}
-								});
-							} else {
-								console.log('is not json string!');
-							}
-						},
-						fail: (err) => {
-							uni.showToast({
-								icon: 'none',
-								title: '网络连接失败'
-							});
-							console.error('网络连接失败：' + JSON.stringify(err));
-							this.setUserInfo(JSON.stringify(err));
-						}
-					});
-					uni.getUserInfo({
-						provider: 'weixin',
-						withCredentials: true,
-						success: infoRes => {
-							console.log(infoRes);
-							this.login(infoRes.userInfo);
-						},
-						fail() {
-							uni.showToast({
-								icon: 'none',
-								title: '登陆失败'
-							});
-						}
-					});
-				},
-				fail: err => {
-					console.error('授权登录失败：' + JSON.stringify(err));
-				}
-			});
+			weixinLogin(this);
 		}
 	}
 };
