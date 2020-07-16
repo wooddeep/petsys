@@ -33,6 +33,7 @@ export function weixinLogin(that) {
 											console.log(res.data.data[0]);
 											that.setUserInfo(res.data[0]);
 										}
+										resolute('ok');
 									},
 									fail: (err) => {
 										uni.showToast({
@@ -40,6 +41,7 @@ export function weixinLogin(that) {
 											title: '网络连接失败'
 										});
 										console.error('网络连接失败：' + JSON.stringify(err));
+										reject('network error!');
 									}
 								});
 							} else {

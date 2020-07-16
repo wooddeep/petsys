@@ -34,7 +34,9 @@
 		},
 		onLoad() {
 			_self = this;
-			weixinLogin(_self).then( err => {
+			weixinLogin(_self).then(res => {
+				console.log('login success!');
+			}, err => {
 				console.log("登录失败！");
 			});
 		},

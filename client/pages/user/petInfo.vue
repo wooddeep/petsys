@@ -51,7 +51,7 @@
 import uCharts from '@/components/u-charts/u-charts.js';
 import { isJSON } from '@/common/checker.js';
 import { mapState } from 'vuex';
-import { getFoodTend } from '@/api/foodTend.js'
+import { getFoodTend, getFoodDesire } from '@/api/foodTend.js'
 
 var _self;
 var canvaColumn = null;
@@ -68,7 +68,8 @@ export default {
 			pixelRatio: 1,
 			bg: '/../../static/pet/bg_petinfo.png',
 			seximg: '/../../static/pet/female.png',
-			meat: '/../../static/pet/meat1.png'
+			meat: '/../../static/pet/meat1.png',
+			foodDesire: 0
 		};
 	},
 	onLoad() {
@@ -81,6 +82,12 @@ export default {
 	methods: {
 		getServerData() {
 			getFoodTend(_self);
+			getFoodDesire(_self).then(res => {
+				console.log(res.data.data);
+				_self.foodDesire = res.data.data;
+			}, err => {
+				console.log(err);
+			});
 		},
 		showColumn(canvasId, chartData) {
 			canvaColumn = new uCharts({

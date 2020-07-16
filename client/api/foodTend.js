@@ -37,10 +37,29 @@ export function getFoodTend(_self) {
 				lData.series[0].name = 'day11';
 				console.log(lData);
 				_self.showLine('canvasLine', lData);
+				
+				resolute('ok');
 			},
 			fail: () => {
 				_self.tips = '网络错误，小程序端请检查合法域名';
+				reject('failed');
 			}
 		});
+	})
+}
+
+export function getFoodDesire(_self) {
+	return new Promise((resolute, reject)=>{
+		uni.request({
+			url: _self.websiteUrl + '/petsys/food/desire',
+			method: 'POST',
+			data: {openid: _self.openId},
+			success(res) {
+				resolute(res);
+			},
+			fail(err) {
+				reject(err);
+			}
+		})
 	})
 }
